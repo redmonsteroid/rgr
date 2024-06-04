@@ -9,7 +9,7 @@ const char* SYSTEM_CLEAR = "cls";
 int main() {
     system("chcp 1251"); // Установка кодировки (1251 для кириллицы)
     
-    string userpasssys, password = "ngtu1", adminpass = "ngtu";
+    string userpasssys, password = "12345", adminpass = "6789"; // пароль для входа 6789, для кодирование/декодирования 12345
     char choice;
 
     cout << "Enter the password to access the system: ";
@@ -55,7 +55,7 @@ int main() {
 
                 case '3':
                     system(SYSTEM_CLEAR);
-                    // Вызов функции для шифра Аффинный (нужно реализовать)
+                    rc6(password);
                     break;
             }
         } catch (const exception& e) {

@@ -11,20 +11,26 @@ extern const char* SYSTEM_CLEAR;
 string encode(string& text) {
     string result;
     for (int i = 0; i < text.size(); i++) {
-        if (text[i] >= 97 && text[i] <= 122)
-            result += char(122 - static_cast<int>(text[i]) + 97);
-        else if (text[i] >= 65 && text[i] <= 90)
-            result += char(90 - static_cast<int>(text[i]) + 65);
-        else if (text[i] >= 33 && text[i] <= 64)
-            result += char(64 - static_cast<int>(text[i]) + 33);
-        else if (text[i] >= -64 && text[i] <= -33)
-            result += char((-33) - static_cast<int>(text[i]) + (-64));
-        else if (text[i] >= -32 && text[i] <= -1)
-            result += char((-1) - static_cast<int>(text[i]) + (-32));
-        else if (text[i] == 32)
-            result += " ";
-        else if (text[i] == '\n')
-            result += '\n';
+        unsigned char ch = static_cast<unsigned char>(text[i]);
+
+        if (ch >= 97 && ch <= 122) // a-z
+            result += char(122 - ch + 97);
+        else if (ch >= 65 && ch <= 90) // A-Z
+            result += char(90 - ch + 65);
+        else if (ch >= 128 && ch <= 175) // А-Я (кириллица заглавные)
+            result += char(175 - ch + 128);
+        else if (ch >= 224 && ch <= 255) // а-я (кириллица строчные)
+            result += char(255 - ch + 224);
+        else if (ch >= 176 && ch <= 223) // псевдографика и другие символы
+            result += char(223 - ch + 176);
+        else if (ch >= 33 && ch <= 64) // !-@
+            result += char(64 - ch + 33);
+        else if (ch >= 91 && ch <= 96) // [-`
+            result += char(96 - ch + 91);
+        else if (ch >= 123 && ch <= 126) // {-~
+            result += char(126 - ch + 123);
+        else
+            result += ch;
     }
     return result;
 }
